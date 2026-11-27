@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Case n°5 - Qui de nous deux ? 🔥❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #f6d365 100%);
+            --card-bg: rgba(255, 255, 255, 0.92);
+            --primary: #ff4b6e;
+            --secondary: #6c5ce7;
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            overflow-x: hidden;
+            color: var(--text-dark);
+            position: relative;
+            transition: color 0.6s ease;
+        }
+
+        /* Calque de fond Spicy (dégradé rouge et noir fluide) */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #0d0205 0%, #5c0a18 45%, #b8142c 80%, #140307 100%);
+            opacity: 0;
+            z-index: 0;
+            pointer-events: none;
+            transition: opacity 0.9s ease;
+        }
+
+        body.spicy-mode::before {
+            opacity: 1;
+        }
+
+        /* Conteneur Principal */
+        .container {
+            width: 100%;
+            max-width: 460px;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 25px 20px;
+            box-shadow: 0 20px 40px rgba(255, 75, 110, 0.2);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            transition: background 0.7s ease, box-shadow 0.7s ease, border 0.7s ease;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        body.spicy-mode .container {
+            background: rgba(24, 12, 16, 0.90);
+            box-shadow: 0 25px 55px rgba(220, 20, 60, 0.45);
+            border: 1px solid rgba(255, 75, 110, 0.35);
+            color: #f5f6fa;
+        }
+
+        /* Piste des deux personnages */
+        .track-wrapper {
+            margin-bottom: 20px;
+            padding: 15px 10px 5px;
+            background: rgba(255, 75, 110, 0.08);
+            border-radius: 20px;
+            position: relative;
+            transition: background 0.7s ease;
+        }
+
+        body.spicy-mode .track-wrapper {
+            background: rgba(255, 45, 85, 0.16);
+        }
+
+        .track-line {
+            height: 6px;
+            background: #ffe0e6;
+            border-radius: 10px;
+            position: relative;
+            margin: 25px 25px 10px;
+            transition: background 0.7s ease;
+        }
+
+        body.spicy-mode .track-line {
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .track-fill {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            border-radius: 10px;
+            transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .character {
+            position: absolute;
+            top: -28px;
+            font-size: 2.1rem;
+            transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+            user-select: none;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+        }
+
+        #char-left {
+            left: 0%;
+            transform: translateX(-50%);
+        }
+
+        #char-right {
+            right: 0%;
+            transform: translateX(50%);
+        }
+
+        .center-heart {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2rem;
+            opacity: 0.4;
+            transition: all 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 5px;
+            transition: color 0.7s ease;
+        }
+
+        body.spicy-mode .progress-text {
+            color: #ff7675;
+        }
+
+        /* Écrans */
+        .screen {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .start-btn {
+            background: linear-gradient(45deg, #ff4b6e, #ff758c);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255, 75, 110, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(255, 75, 110, 0.4);
+        }
+
+        /* Zone Question */
+        .question-badge {
+            display: inline-block;
+            background: #ffe0e6;
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.5s ease;
+        }
+
+        .question-badge.spicy {
+            background: linear-gradient(90deg, #8b0000, #d63031);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(214, 48, 49, 0.45);
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            min-height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            transition: color 0.7s ease;
+        }
+
+        body.spicy-mode .question-text {
+            color: #ffffff;
+        }
+
+        .choices {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .choice-btn {
+            padding: 18px 12px;
+            border: none;
+            border-radius: 18px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .choice-btn.him {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+        }
+
+        .choice-btn.her {
+            background: linear-gradient(135deg, #ff4b6e, #ff7675);
+        }
+
+        .choice-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Animation de rebond et halo lors du clic sur Tim ou Manon */
+        @keyframes btnPopHim {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.75); }
+            45% { transform: scale(1.09); box-shadow: 0 0 0 16px rgba(108, 92, 231, 0); }
+            100% { transform: scale(1); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+        }
+
+        @keyframes btnPopHer {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 75, 110, 0.75); }
+            45% { transform: scale(1.09); box-shadow: 0 0 0 16px rgba(255, 75, 110, 0); }
+            100% { transform: scale(1); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+        }
+
+        .pop-him {
+            animation: btnPopHim 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .pop-her {
+            animation: btnPopHer 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .reaction-box {
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--secondary);
+            font-style: italic;
+            padding: 4px 8px;
+            transition: color 0.7s ease;
+        }
+
+        body.spicy-mode .reaction-box {
+            color: #ff9ff3;
+        }
+
+        /* Écran Final & Animation Bisou */
+        .final-kiss-stage {
+            min-height: 95px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 6px;
+        }
+
+        .final-explosion-icon {
+            font-size: 4.4rem;
+            display: inline-block;
+            animation: kissEntrance 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, pulseHeart 1.3s 0.9s infinite;
+        }
+
+        @keyframes kissEntrance {
+            0% { opacity: 0; transform: scale(0.2) rotate(-15deg); }
+            70% { opacity: 1; transform: scale(1.25) rotate(6deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        @keyframes pulseHeart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.18); }
+        }
+
+        /* Défilement intelligent de petites photos (Ruban Polaroid continu) */
+        .photo-showcase {
+            display: none;
+            margin: 14px 0 18px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 18px;
+            padding: 12px 0;
+            background: linear-gradient(135deg, rgba(255, 75, 110, 0.08), rgba(108, 92, 231, 0.08));
+            border: 1px solid rgba(255, 75, 110, 0.22);
+            opacity: 0;
+            transform: translateY(12px) scale(0.96);
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .photo-showcase.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .photo-marquee-track {
+            display: flex;
+            gap: 12px;
+            width: max-content;
+            animation: smartScroll var(--scroll-duration, 24s) linear infinite;
+            padding-left: 12px;
+        }
+
+        .photo-showcase:hover .photo-marquee-track,
+        .photo-showcase:active .photo-marquee-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes smartScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .mini-photo-card {
+            width: 108px;
+            height: 132px;
+            background: #ffffff;
+            padding: 5px 5px 18px 5px;
+            border-radius: 10px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.14);
+            flex-shrink: 0;
+            transform: rotate(var(--tilt, 0deg));
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .mini-photo-card:hover {
+            transform: scale(1.08) rotate(0deg);
+            z-index: 5;
+        }
+
+        .mini-photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+            display: block;
+        }
+
+        .mini-photo-card::after {
+            content: "❤️";
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.65rem;
+            opacity: 0.75;
+        }
+
+        .final-message {
+            background: #fff0f3;
+            border: 2px dashed #ffb3c1;
+            border-radius: 20px;
+            padding: 18px;
+            margin: 14px 0;
+            font-size: 0.92rem;
+            line-height: 1.55;
+            color: var(--text-dark);
+        }
+
+        .stats-summary {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            padding: 12px;
+            border-radius: 15px;
+            margin-top: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            color: var(--text-dark);
+        }
+
+        /* Particules Explosion d'Emojis (Fin) */
+        .emoji-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 2rem;
+            animation: flyOut 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes flyOut {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(1.4) rotate(var(--rot));
+            }
+        }
+
+        /* Mini explosion d'emojis au clic sur une case */
+        .click-emoji-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            font-size: 1.35rem;
+            animation: clickBurst 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes clickBurst {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(0.4) rotate(0deg);
+            }
+            65% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(1.25) rotate(var(--rot));
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Piste de rapprochement des personnages -->
+        <div class="track-wrapper">
+            <div class="track-line">
+                <div class="track-fill" id="trackFill"></div>
+                <div class="center-heart" id="centerHeart">❤️</div>
+                <div class="character" id="char-left">🏃🏻‍♂️</div>
+                <div class="character" id="char-right">🏃🏻‍♀️</div>
+            </div>
+            <div class="progress-text" id="progressText">Prêts à vous retrouver ?</div>
+        </div>
+
+        <!-- ÉCRAN 1 : ACCUEIL -->
+        <div class="screen active" id="screen-start">
+            <h1>Case n°5 : Qui de nous deux ?</h1>
+            <p class="subtitle">56 questions sur nous (dont quelques questions un peu spicy 🔥). À chaque réponse, on se rapproche un peu plus l'un de l'autre jusqu'aux retrouvailles ! ❤️</p>
+            <button class="start-btn" onclick="startQuiz()">C'est parti ! ❤️</button>
+        </div>
+
+        <!-- ÉCRAN 2 : QUIZ -->
+        <div class="screen" id="screen-quiz">
+            <div class="question-badge" id="q-number">Question 1 / 56</div>
+            <div class="question-text" id="q-text">Qui de nous deux...</div>
+            
+            <div class="choices">
+                <button class="choice-btn him" id="btn-him" onclick="answer('him', event)">
+                    <span style="font-size: 1.6rem;">👦🏻</span>
+                    <span id="name-him">Tim</span>
+                </button>
+                <button class="choice-btn her" id="btn-her" onclick="answer('her', event)">
+                    <span style="font-size: 1.6rem;">👧🏻</span>
+                    <span id="name-her">Manon</span>
+                </button>
+            </div>
+
+            <div class="reaction-box" id="reaction-text"></div>
+        </div>
+
+        <!-- ÉCRAN 3 : FINAL -->
+        <div class="screen" id="screen-end">
+            <!-- Étape 1 : L'emoji du bisou à deux pendant quelques secondes -->
+            <div class="final-kiss-stage" id="finalKissStage">
+                <div class="final-explosion-icon">💏</div>
+            </div>
+
+            <!-- Étape 2 : Défilement intelligent des petites photos du répertoire -->
+            <div class="photo-showcase" id="photoShowcase">
+                <div class="photo-marquee-track" id="photoTrack"></div>
+            </div>
+
+            <h1>On s'est retrouvés ! 💖</h1>
+            
+            <div class="final-message">
+                <strong>Verdict officiel :</strong><br><br>
+                Vous faites partie d'une <strong>relation saine</strong>, pleine de complicité, de rires, d'attirance et de bienveillance. Vous êtes tout simplement <strong>faits l'un pour l'autre</strong>, et il y a encore tellement de belles choses et de grands projets à venir pour vous deux. ✨🥂
+            </div>
+
+            <div class="stats-summary">
+                <span id="stat-him">Tim : 0</span>
+                <span>❤️</span>
+                <span id="stat-her">Manon : 0</span>
+            </div>
+
+            <button class="start-btn" style="margin-top: 18px; padding: 12px 24px; font-size: 0.9rem;" onclick="triggerEmojiExplosion()">Relancer les confettis 🎉</button>
+        </div>
+    </div>
+
+    <script>
+        /* =========================================================
+           1. CONFIGURATION À PERSONNALISER
+           ========================================================= */
+        const CONFIG = {
+            nomLui: "Tim",      // Côté garçon
+            nomElle: "Manon",   // Côté fille
+            
+            // Durée d'affichage du commentaire sous les boutons (2200 = 2,2 secondes)
+            delaiCommentaire: 2200,
+
+            // Durée pendant laquelle l'emoji du bisou à deux reste seul avant le défilement photo (3000 = 3 secondes)
+            delaiAvantPhotos: 3000,
+
+            // Noms des photos placées dans le même dossier que ce fichier HTML
+            // (Tu peux en mettre autant que tu veux : photo1.jpg, photo2.jpg, etc. Les photos manquantes sont ignorées automatiquement)
+            photos: [
+                "photo1.jpg",
+                "photo2.jpg",
+                "photo3.jpg",
+                "photo4.jpg",
+                "photo5.jpg",
+                "photo6.jpg",
+                "photo7.jpg",
+                "photo8.jpg",
+                "photo9.jpg",
+                "photo10.jpg"
+            ]
+        };
+
+        /* =========================================================
+           2. LES 56 QUESTIONS "QUI DE NOUS DEUX ?" (CLASSIQUE + SPICY)
+           ========================================================= */
+        const QUESTIONS = [
+            // --- PARTIE 1 : LE QUOTIDIEN & COMPLICITÉ ---
+            { q: "Qui de nous deux met le plus de temps à se préparer avant de sortir ?", r: "Avouez, on sait déjà qui c'est... 👀" },
+            { q: "Qui de nous deux s'endort en premier devant un film ?", r: "« Mais non je dors pas, j'écoute ! » 😴" },
+            { q: "Qui de nous deux est le plus gourmand ?", r: "Impossible de résister à un bon dessert 🍫" },
+            { q: "Qui de nous deux a fait le premier pas ?", r: "Et quelle excellente décision ! ✨" },
+            { q: "Qui de nous deux est le plus mauvais perdant ?", r: "Certains prennent le jeu très au sérieux... 🏆" },
+            { q: "Qui de nous deux dit « Je t'aime » le plus souvent dans la journée ?", r: "On ne le dit jamais assez ❤️" },
+            { q: "Qui de nous deux est le plus frileux sous la couette ?", r: "Team pieds glacés détectée 🥶" },
+            { q: "Qui de nous deux met le plus de temps à répondre aux messages ?", r: "Oups, téléphone en silencieux... 📱" },
+            { q: "Qui de nous deux est le plus bordélique ?", r: "« C'est un bordel organisé ! » 🤷‍♂️" },
+            { q: "Qui de nous deux choisit toujours ce qu'on mange ce soir ?", r: "« Comme tu veux, choisis toi ! » 🍕" },
+            { q: "Qui de nous deux est le plus romantique ?", r: "Des petites attentions qui font tout 🥰" },
+            { q: "Qui de nous deux rigole le plus facilement pour rien ?", r: "Les meilleurs fous rires 😂" },
+            { q: "Qui de nous deux est le plus têtu ?", r: "Impossible de faire changer d'avis cette personne 🐐" },
+            { q: "Qui de nous deux pique toute la couette la nuit ?", r: "La lutte nocturne pour la survie 🛏️" },
+            { q: "Qui de nous deux est le meilleur cuisinier ?", r: "Chef étoilé de la maison 👨‍🍳" },
+            { q: "Qui de nous deux est le plus stressé quand on doit prendre la route ou un train ?", r: "Mieux vaut arriver 2h en avance ! ⏰" },
+            { q: "Qui de nous deux fait le plus de câlins ?", r: "La meilleure recharge d'énergie 🤗" },
+            { q: "Qui de nous deux a les meilleurs goûts dans nos sorties et soirées ?", r: "Toujours les meilleures idées 🎯" },
+            { q: "Qui de nous deux pleure le plus facilement devant un film émouvant ?", r: "« J'ai juste une poussière dans l'œil... » 😢" },
+            { q: "Qui de nous deux est le plus maladroit ?", r: "Attention aux objets fragiles autour ! 💥" },
+            { q: "Qui de nous deux planifie le mieux les sorties et les voyages ?", r: "L'organisation, c'est la clé 🗺️" },
+            { q: "Qui de nous deux est le plus grognon le matin avant le petit-déj ?", r: "Ne pas parler avant le café ☕" },
+            { q: "Qui de nous deux prend le plus de photos de nous ?", r: "Pour garder tous nos souvenirs 📸" },
+            { q: "Qui de nous deux est le plus chatouilleux ?", r: "Point faible identifié ! 🤭" },
+            { q: "Qui de nous deux dépense le plus en shopping ou en petits plaisirs ?", r: "« Mais j'en avais vraiment besoin ! » 🛍️" },
+            { q: "Qui de nous deux est le plus patient ?", r: "Une qualité en or 🧘" },
+            { q: "Qui de nous deux chante le plus fort (et le plus faux) sous la douche ou en voiture ?", r: "Concert privé garanti 🎤" },
+            { q: "Qui de nous deux a le plus besoin d'attention quand il/elle est malade ?", r: "Un petit rhume et c'est la fin du monde 🤒" },
+            { q: "Qui de nous deux est le plus protecteur envers l'autre ?", r: "Toujours là pour veiller sur l'autre 🛡️" },
+            { q: "Qui de nous deux est le plus jaloux (même un tout petit peu) ?", r: "« Non mais je m'en fous, c'est juste que... » 🤨" },
+
+            // --- PARTIE 2 : UN PEU SPICY 🔥 ---
+            { q: "Qui de nous deux a l'esprit le plus mal placé au quotidien ?", r: "Tout peut devenir un double sens... 😏", spicy: true },
+            { q: "Qui de nous deux initie le plus souvent les rapprochements sous la couette ?", r: "On ne perd pas de temps 🔥", spicy: true },
+            { q: "Qui de nous deux aime le plus se balader tout nu à la maison ?", r: "La liberté avant tout 👀", spicy: true },
+            { q: "Qui de nous deux envoie les messages ou photos les plus osés dans la journée ?", r: "Attention à ne pas ouvrir ça en public... 📱🔥", spicy: true },
+            { q: "Qui de nous deux est le plus tactile en public (mains baladeuses comprises) ?", r: "Difficile de se retenir 🤭", spicy: true },
+            { q: "Qui de nous deux est le plus bruyant au lit ?", r: "Pauvres voisins... 🤫🔥", spicy: true },
+            { q: "Qui de nous deux aime le plus prendre les commandes / dominer ?", r: "C'est qui le patron ? 😈", spicy: true },
+            { q: "Qui de nous deux a les fantasmes les plus fous ?", r: "Il va falloir tout avouer maintenant... 💭🔥", spicy: true },
+            { q: "Qui de nous deux adore les petits « quickies » improvisés en pleine journée ?", r: "Pas besoin d'attendre le soir ⚡", spicy: true },
+            { q: "Qui de nous deux est le plus endurant ?", r: "Prêt pour un marathon ? 🏃‍♂️🔥", spicy: true },
+            { q: "Qui de nous deux aime le plus les préliminaires qui durent longtemps ?", r: "Faire monter la température doucement... 🌡️", spicy: true },
+            { q: "Qui de nous deux a le plus envie de tester de nouveaux endroits insolites ?", r: "Un peu d'adrénaline ne fait pas de mal 🌍🔥", spicy: true },
+            { q: "Qui de nous deux laisse le plus de marques (suçons, griffures...) ?", r: "Oups, il va falloir mettre un col roulé 🧛‍♂️", spicy: true },
+            { q: "Qui de nous deux est le plus doué avec ses mains ?", r: "Un talent reconnu d'utilité publique 👏🔥", spicy: true },
+            { q: "Qui de nous deux aime le plus les réveils câlins / coquins le matin ?", r: "Bien mieux qu'un réveil qui sonne ☀️🔥", spicy: true },
+            { q: "Qui de nous deux est le plus sensible des zones érogènes ?", r: "Un seul frôlement et c'est fini ⚡", spicy: true },
+            { q: "Qui de nous deux a le plus de mal à garder son sérieux même dans un moment chaud ?", r: "Un petit fou rire au milieu de l'action 😂❤️", spicy: true },
+            { q: "Qui de nous deux est le plus gourmand de caresses et de bisous dans le cou ?", r: "Le point faible absolu 😘", spicy: true },
+            { q: "Qui de nous deux a déjà eu envie de l'autre à un moment totalement inapproprié ?", r: "En repas de famille ou en cours... 👀🔥", spicy: true },
+            { q: "Qui de nous deux aime le plus quand ça devient un peu plus intense / sauvage ?", r: "Fini la douceur place à la passion 🐆🔥", spicy: true },
+            { q: "Qui de nous deux propose toujours de prendre une douche à deux ?", r: "Économie d'eau garantie 🚿🔥", spicy: true },
+            { q: "Qui de nous deux est le plus demandeur de massages qui dérapent ?", r: "« J'ai un peu mal au dos ce soir... » 💆‍♂️🔥", spicy: true },
+            { q: "Qui de nous deux regarde l'autre avec le regard le plus explicite ?", r: "Un regard qui veut tout dire 👁️🔥", spicy: true },
+            { q: "Qui de nous deux est le plus chaud ce soir ?", r: "Ce quiz risque de bien se terminer... 😏🔥", spicy: true },
+
+            // --- PARTIE 3 : CONCLUSION DOUCE ---
+            { q: "Qui de nous deux est le plus impatient de voir la suite de nos projets ensemble ?", r: "Le meilleur reste à venir ✨" },
+            { q: "Qui de nous deux a le plus de chance d'être avec l'autre ?", r: "Spoiler : vous avez tous les deux gagné le gros lot 💖" }
+        ];
+
+        /* =========================================================
+           3. LOGIQUE DU JEU, THÈME SPICY & DÉFILEMENT PHOTO
+           ========================================================= */
+        let currentIdx = 0;
+        let scoreHim = 0;
+        let scoreHer = 0;
+        let isTransitioning = false;
+        let validPhotos = [];
+
+        const charLeft = document.getElementById('char-left');
+        const charRight = document.getElementById('char-right');
+        const trackFill = document.getElementById('trackFill');
+        const progressText = document.getElementById('progressText');
+
+        // Initialisation des prénoms ("Tim" / "Manon")
+        document.getElementById('name-him').textContent = CONFIG.nomLui;
+        document.getElementById('name-her').textContent = CONFIG.nomElle;
+
+        // Pré-vérification intelligente des photos présentes dans le répertoire
+        function preloadValidPhotos() {
+            CONFIG.photos.forEach(src => {
+                const img = new Image();
+                img.onload = () => {
+                    if (!validPhotos.includes(src)) {
+                        validPhotos.push(src);
+                    }
+                };
+                img.src = src;
+            });
+        }
+        preloadValidPhotos();
+
+        function startQuiz() {
+            document.getElementById('screen-start').classList.remove('active');
+            document.getElementById('screen-quiz').classList.add('active');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const qData = QUESTIONS[currentIdx];
+            const badge = document.getElementById('q-number');
+            
+            if (qData.spicy) {
+                badge.textContent = `🔥 Question ${currentIdx + 1} / ${QUESTIONS.length} • Spicy`;
+                badge.classList.add('spicy');
+                document.body.classList.add('spicy-mode');
+            } else {
+                badge.textContent = `Question ${currentIdx + 1} / ${QUESTIONS.length}`;
+                badge.classList.remove('spicy');
+                document.body.classList.remove('spicy-mode');
+            }
+
+            document.getElementById('q-text').textContent = qData.q;
+            document.getElementById('reaction-text').textContent = "";
+            isTransitioning = false;
+        }
+
+        function answer(who, event) {
+            if (isTransitioning) return;
+            isTransitioning = true;
+
+            const btn = who === 'him' ? document.getElementById('btn-him') : document.getElementById('btn-her');
+            
+            // Animation de rebond sur le bouton cliqué
+            btn.classList.remove('pop-him', 'pop-her');
+            void btn.offsetWidth;
+            btn.classList.add(who === 'him' ? 'pop-him' : 'pop-her');
+
+            // Mini explosion d'emojis aux couleurs du bouton cliqué
+            triggerClickBurst(btn, who);
+
+            if (who === 'him') scoreHim++;
+            else scoreHer++;
+
+            document.getElementById('reaction-text').textContent = QUESTIONS[currentIdx].r;
+
+            currentIdx++;
+            updateCharactersPosition();
+
+            setTimeout(() => {
+                if (currentIdx < QUESTIONS.length) {
+                    showQuestion();
+                } else {
+                    finishQuiz();
+                }
+            }, CONFIG.delaiCommentaire);
+        }
+
+        function triggerClickBurst(btnElement, who) {
+            const rect = btnElement.getBoundingClientRect();
+            const originX = rect.left + rect.width / 2;
+            const originY = rect.top + rect.height / 2;
+
+            const emojisHim = ['💜', '💙', '🔮', '✨', '⚡', '💎', '🦋'];
+            const emojisHer = ['💖', '💗', '❤️', '🌸', '✨', '💕', '🌹'];
+            const palette = who === 'him' ? emojisHim : emojisHer;
+
+            const count = 18;
+            for (let i = 0; i < count; i++) {
+                const el = document.createElement('div');
+                el.className = 'click-emoji-particle';
+                el.textContent = palette[Math.floor(Math.random() * palette.length)];
+
+                el.style.left = `${originX}px`;
+                el.style.top = `${originY}px`;
+
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 55 + Math.random() * 115;
+                const tx = Math.cos(angle) * distance + 'px';
+                const ty = Math.sin(angle) * distance + 'px';
+                const rot = (Math.random() - 0.5) * 480 + 'deg';
+
+                el.style.setProperty('--tx', tx);
+                el.style.setProperty('--ty', ty);
+                el.style.setProperty('--rot', rot);
+
+                document.body.appendChild(el);
+
+                setTimeout(() => {
+                    el.remove();
+                }, 950);
+            }
+        }
+
+        function updateCharactersPosition() {
+            const progress = currentIdx / QUESTIONS.length;
+            const movePercent = progress * 46; 
+
+            charLeft.style.left = `${movePercent}%`;
+            charRight.style.right = `${movePercent}%`;
+            trackFill.style.width = `${progress * 100}%`;
+
+            const remaining = QUESTIONS.length - currentIdx;
+            if (remaining > 0) {
+                progressText.textContent = `Encore ${remaining} étape${remaining > 1 ? 's' : ''} avant de vous toucher...`;
+            } else {
+                progressText.textContent = `Fusion parfaite ! ❤️`;
+                charLeft.textContent = "💏";
+                charRight.style.opacity = "0";
+                charLeft.style.left = "50%";
+                document.getElementById('centerHeart').style.opacity = "1";
+                document.getElementById('centerHeart').style.transform = "translateX(-50%) scale(1.6)";
+            }
+        }
+
+        function buildSmartPhotoCarousel() {
+            const showcase = document.getElementById('photoShowcase');
+            const track = document.getElementById('photoTrack');
+
+            // Utilise les photos valides trouvées dans le dossier (ou la liste configurée)
+            const list = validPhotos.length > 0 ? validPhotos : CONFIG.photos;
+            if (!list || list.length === 0) return;
+
+            track.innerHTML = "";
+            const tilts = [-3.5, 2.5, -2, 3.5, -1.5, 2];
+
+            // On duplique la liste 2 fois pour un défilement infini fluide sans coupure
+            const loopList = [...list, ...list];
+            loopList.forEach((src, index) => {
+                const card = document.createElement('div');
+                card.className = 'mini-photo-card';
+                card.style.setProperty('--tilt', `${tilts[index % tilts.length]}deg`);
+
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = "Notre souvenir";
+                img.onerror = () => {
+                    card.remove();
+                };
+
+                card.appendChild(img);
+                track.appendChild(card);
+            });
+
+            // Adapte automatiquement la vitesse du défilement au nombre de photos
+            const duration = Math.max(14, list.length * 3.5);
+            track.style.setProperty('--scroll-duration', `${duration}s`);
+
+            showcase.style.display = 'block';
+            requestAnimationFrame(() => {
+                showcase.classList.add('visible');
+            });
+        }
+
+        function finishQuiz() {
+            document.body.classList.remove('spicy-mode');
+            document.getElementById('screen-quiz').classList.remove('active');
+            document.getElementById('screen-end').classList.add('active');
+
+            document.getElementById('stat-him').textContent = `${CONFIG.nomLui} : ${scoreHim}`;
+            document.getElementById('stat-her').textContent = `${CONFIG.nomElle} : ${scoreHer}`;
+
+            triggerEmojiExplosion();
+            setTimeout(triggerEmojiExplosion, 600);
+            setTimeout(triggerEmojiExplosion, 1200);
+
+            // L'emoji du bisou à deux (💏) apparaît seul pendant 3 secondes, puis le défilement photo démarre
+            setTimeout(() => {
+                buildSmartPhotoCarousel();
+            }, CONFIG.delaiAvantPhotos);
+        }
+
+        function triggerEmojiExplosion() {
+            const emojis = ['❤️', '💖', '🥰', '✨', '🥂', '😍', '💕', '🔥', '💘', '🎉'];
+            const count = 45;
+
+            for (let i = 0; i < count; i++) {
+                const el = document.createElement('div');
+                el.className = 'emoji-particle';
+                el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+                el.style.left = '50vw';
+                el.style.top = '45vh';
+
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 120 + Math.random() * 320;
+                const tx = Math.cos(angle) * distance + 'px';
+                const ty = Math.sin(angle) * distance + 'px';
+                const rot = (Math.random() - 0.5) * 720 + 'deg';
+
+                el.style.setProperty('--tx', tx);
+                el.style.setProperty('--ty', ty);
+                el.style.setProperty('--rot', rot);
+
+                document.body.appendChild(el);
+
+                setTimeout(() => {
+                    el.remove();
+                }, 2800);
+            }
+        }
+    </script>
+</body>
+</html>
